@@ -1,0 +1,33 @@
+import json
+
+def convert_uyghur_arabic_to_latin(source_text):
+    character_mapping = {
+        'ئ': '', 'ا': 'a', 'ب': 'b', 'پ': 'p', 'ت': 't', 'ج': 'j',
+        'چ': 'Q', 'خ': 'H', 'د': 'd', 'ر': 'r', 'ز': 'z', 'ژ': 'Z',
+        'س': 's', 'ش': 'x', 'غ': 'G', 'ف': 'f', 'ق': 'q', 'ك': 'k',
+        'گ': 'g', 'ڭ': 'G', 'ل': 'l', 'م': 'm', 'ن': 'n', 'ھ': 'h',
+        'و': 'o', 'ۇ': 'u', 'ۆ': 'ö', 'ۈ': 'ü', 'ۋ': 'w', 'ى': 'i',
+        'ي': 'y', 'ې': 'é', 'ە': 'e'
+    }
+    target_text = ''
+    for char in source_text:
+        
+        if char in character_mapping:
+            target_text += character_mapping[char]
+        else:
+            target_text += char
+    return target_text
+
+def convert_and_save_json_file(input_json_path, output_json_path):
+    with open(input_json_path, 'r', encoding='utf-8') as file:
+        data = json.load(file)
+        
+    for item in data:
+        # item['type'] = convert_uyghur_arabic_to_latin(item['type'])
+        item['sentence'] = convert_uyghur_arabic_to_latin(item['sentence'])
+    
+    with open(output_json_path, 'w', encoding='utf-8') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
+
+# 调用函数，转换并保存文件
+convert_and_save_json_file('your_input_json_path', 'your_output_json_path')
